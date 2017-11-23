@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <meta charset="utf-8">
+            <title>多个组件之间的过渡</title>
+            <style>
+            .component-fade-enter-active, .component-fade-leave-active {
+                 transition: opacity .3s ease;
+            }
+            .component-fade-enter, .component-fade-leave-to
+             /* .component-fade-leave-active 在低于 2.1.8 版本中 */ {
+                opacity: 0;
+            }
+            </style>
+    </head>
+    <body>
+        <div id="transition-components-demo">
+            <template v-for="option in radioOptions">
+                <input type="radio"   
+                    :id="option"
+                    :value="option"
+                    name="option"
+                    v-model="currentView"
+                    >
+                <label :for="option">{{ option }}</label>
+            </template>
+            <transition name="component-fade" mode="out-in">
+               <component v-bind:is="currentView"></component>
+            </transition>
+        </div>
+        <script src="https://unpkg.com/vue"></script>          
+        <script>
+            new Vue({
+                el: '#transition-components-demo',
+                data:{
+                    radioOptions: ['v-a', 'v-b'],
+                    currentView: 'v-a'
+                }, 
+                components:{
+                    'v-a':{
+                        template: '<div>Component A</div>'
+                    },
+                    'v-b':{
+                        template: '<div>Component B</div>'
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

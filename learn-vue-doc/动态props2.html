@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <meta charset="utf-8">
+            <title>动态props-将一个对象中的所有属性作为props传递</title>
+    </head>
+    <body>
+        <!-- data必须是一个函数 -->
+        <div id="example-2">
+            <todo-item v-bind="{todo}"></todo-item>
+        </div>
+    
+        <script src="https://unpkg.com/vue"></script>           
+        <script>
+         
+           Vue.component('todo-item',{
+               //声明props
+               props: ['todo'],
+               //就像 data 一样，prop可以在组件模版内部使用
+               //并且，还可以在vm实例中通过 this.message 访问
+               template: '<span>{{todo.text}} , {{todo.isComplete}}</span>'
+           })
+
+           new Vue({
+               el: '#example-2',
+               data:{
+                   todo:{
+                       text: 'Learn Vue',
+                       isComplete: false
+                   }
+               }
+           })
+        </script>
+    </body>
+</html>
