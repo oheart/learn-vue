@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <meta charset="utf-8">
+            <title>component2</title>
+    </head>
+    <body>
+        <!-- data必须是一个函数 -->
+        <div id="example-2">
+            <simple-counter></simple-counter>
+            <simple-counter></simple-counter>
+        </div>
+    
+        <script src="https://unpkg.com/vue"></script>           
+        <script>
+         
+
+           Vue.component('simple-counter',{
+               template:'<button v-on:click="counter += 1">{{ counter }}</button>',
+               data: function(){
+                   return {
+                       counter: 0
+                   }
+               }
+           })
+
+           new Vue({
+               el: '#example-2'
+           })
+        </script>
+    </body>
+</html>
