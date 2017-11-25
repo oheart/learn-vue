@@ -37,4 +37,4 @@
  - updated
  - beforeDestory
  - destoryed
- ![lifecycle](./img/lifecycle.png)
+ ![](../img/lifecycle.png)
