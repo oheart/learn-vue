@@ -14,26 +14,31 @@
                 <img src="../assets/images/start_btn.png" class="start-btn" />
             </router-link>
         </div>
-        <div class="queslist-box"  v-if="fatherComponent == 'item'">
-            题目一
-            <ul>
-                <li class="ques-item">
-                    <span class="ques-letter">A</span>
-                    <span class="right-answer">正确答案aaa</span>
-                </li>
-                <li class="ques-item">
-                    <span class="ques-letter">B</span>
-                    <span class="right-answer">正确答案bbb</span>
-                </li>
-                <li class="ques-item">
-                    <span class="ques-letter">C</span>
-                    <span class="right-answer">正确答案ccc</span>
-                </li>
-                <li class="ques-item">
-                    <span class="ques-letter">D</span>
-                    <span class="right-answer">正确答案ddd</span>
-                </li>
-            </ul>
+        <div  class="queslist-outer-wrapper" v-if="fatherComponent == 'item'">
+          <div class="queslist-box">
+              <h4 class="ques-item-tit">题目一</h4>
+              <ul class="queslist-ul">
+                  <li class="ques-item">
+                      <span class="ques-letter">A</span>
+                      <span class="right-answer">正确答案aaa</span>
+                  </li>
+                  <li class="ques-item">
+                      <span class="ques-letter">B</span>
+                      <span class="right-answer">正确答案bbb</span>
+                  </li>
+                  <li class="ques-item">
+                      <span class="ques-letter">C</span>
+                      <span class="right-answer">正确答案ccc</span>
+                  </li>
+                  <li class="ques-item">
+                      <span class="ques-letter">D</span>
+                      <span class="right-answer">正确答案ddd</span>
+                  </li>
+              </ul>
+          </div>
+           <router-link to="item">
+                <img src="../assets/images/next_ques_btn.png" class="next-ques-btn" />
+            </router-link>
         </div>
     </section>
 </template>
@@ -81,15 +86,46 @@ export default {
     .start-btn{
         width: 1.73rem;
         height: .84rem;
-        margin: .7rem auto 0;
+        margin: .8rem auto 0;
     }
 }
-.queslist-box{
+.queslist-outer-wrapper{
     width: 4.88rem;
     height: 3.79rem;
     margin: 0 auto;
     background: url('../assets/images/ques_bg.png');
     background-size: 100% 100%;
+    .queslist-box{
+      width: 60%;
+      margin: 0 auto 0;
+      padding-top: 12%;
+      .ques-item-tit{
+        font-size: .26rem;
+        color: #FFF;
+      }
+      .queslist-ul{
+        color: #FFF;
+        font-size: .2rem;
+        .ques-item{
+          margin-top: .1rem;
+          .ques-letter{
+            width:.3rem;
+            height: .3rem;
+            line-height: .3rem;
+            display: inline-block;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            text-align: center;
+          }
+        }
+      }
+    }
+    .next-ques-btn{
+        width: 1.73rem;
+        height: .84rem;
+        margin: 1.4rem auto 0;
+    }
 }
+
 
 </style>
