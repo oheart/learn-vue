@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App'
 import routes from './router'
+import store from './store'
 
 import './assets/style/reset.css'
 import './assets/style/index.less'
@@ -16,5 +17,6 @@ const router = new VueRouter({
 })
 
 new Vue({
-  router
+  router,
+  store
 }).$mount('#app')

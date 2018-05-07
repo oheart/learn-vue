@@ -11,6 +11,10 @@ export default[{
     {
       path: '/item',
       component: r => require.ensure([], () => r(require('../page/item')), 'item')
+    },
+    {
+      path: '/score',
+      component: r => require.ensure([], () => r(require('../page/score')), 'score')
     }
   ]
 }]
