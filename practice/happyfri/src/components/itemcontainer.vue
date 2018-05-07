@@ -18,8 +18,8 @@
           <div class="queslist-box">
               <h4 class="ques-item-tit">{{itemDetail[itemNum -1].topic_name}}</h4>
               <ul class="queslist-ul">
-                  <li class="ques-item" 
-                        v-for="(item, index) in itemDetail[itemNum -1].topic_answer" 
+                  <li class="ques-item"
+                        v-for="(item, index) in itemDetail[itemNum -1].topic_answer"
                         v-bind:key="item.topic_answer_id"
                         @click="choosed(index, item.topic_answer_id)"
                     >
@@ -39,10 +39,10 @@
                       <span class="right-answer">正确答案ddd</span>
                   </li> -->
               </ul>
-          </div> 
-          <img src="../assets/images/next_ques_btn.png" class="next-ques-btn" @click="nextItem" 
+          </div>
+          <img src="../assets/images/next_ques_btn.png" class="next-ques-btn" @click="nextItem"
                 v-if="itemNum < itemDetail.length"/>
-           <img src="../assets/images/next_ques_btn.png" class="next-ques-btn" v-else  @click="submitAnswer"   
+           <img src="../assets/images/next_ques_btn.png" class="next-ques-btn" v-else  @click="submitAnswer"
                 />
         </div>
     </section>
@@ -172,7 +172,7 @@ export default {
       color: #fff;
       font-size: 0.2rem;
       .ques-item {
-        margin-top: 0.1rem;
+        margin-top: 4%;
         .ques-letter {
           width: 0.3rem;
           height: 0.3rem;
