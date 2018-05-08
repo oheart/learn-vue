@@ -1,4 +1,7 @@
 import App from '../App'
+import home from '../page/home'
+import item from '../page/item'
+import score from '../page/score'
 
 export default[{
   path: '/',
@@ -6,15 +9,15 @@ export default[{
   children:[
     {
       path: '',
-      component: r => require.ensure([], ()=> r(require('../page/home')), 'home')
+      component: home
     },
     {
       path: '/item',
-      component: r => require.ensure([], () => r(require('../page/item')), 'item')
+      component: item
     },
     {
       path: '/score',
-      component: r => require.ensure([], () => r(require('../page/score')), 'score')
+      component: score
     }
   ]
 }]

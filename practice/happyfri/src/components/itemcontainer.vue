@@ -26,18 +26,6 @@
                       <span class="ques-letter" v-bind:class="{'active-ques-letter': choosedNum == index}">{{chooseType(index)}}</span>
                       <span class="right-answer">{{item.answer_name}}</span>
                   </li>
-                  <!-- <li class="ques-item">
-                      <span class="ques-letter">B</span>
-                      <span class="right-answer">正确答案bbb</span>
-                  </li>
-                  <li class="ques-item">
-                      <span class="ques-letter">C</span>
-                      <span class="right-answer">正确答案ccc</span>
-                  </li>
-                  <li class="ques-item">
-                      <span class="ques-letter">D</span>
-                      <span class="right-answer">正确答案ddd</span>
-                  </li> -->
               </ul>
           </div>
           <img src="../assets/images/next_ques_btn.png" class="next-ques-btn" @click="nextItem"
@@ -107,7 +95,11 @@ export default {
       if (this.choosedNum !== null) {
         this.addNum(this.chooseId);
         clearInterval(this.timer);
-        this.$router.push("score");
+        // this.$router.push("score");
+        this.$router.push({
+          path: '/score',
+          query:{timer: this.timer}
+        })
       } else {
         alert("您还没有选择答案哦");
       }
@@ -138,7 +130,7 @@ export default {
       font-size: 0.28rem;
       color: #a57c50;
       position: absolute;
-      bottom: 0.45rem;
+      bottom: 0.42rem;
       left: 0.36rem;
     }
   }
@@ -173,6 +165,7 @@ export default {
       font-size: 0.2rem;
       .ques-item {
         margin-top: 4%;
+        font-size: .23rem;
         .ques-letter {
           width: 0.3rem;
           height: 0.3rem;

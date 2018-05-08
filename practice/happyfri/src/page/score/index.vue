@@ -5,8 +5,8 @@
             <p class="result-tips">{{scoreTips}}</p>
         </div>
         <div class="share-score">
-            <img src="../../assets/images/share_img.png" class="share-img"
-              @click="showCover" />
+            <img src="../../assets/images/share_img.png" class="share-img"  @click="showCover"/>
+            <p class="total-time">总用时：{{totalTime}}秒</p>
             <p class="share-tit">关注葡萄之家，获取答案。</p>
             <img src="../../assets/images/QRcode.png" class="QRcode-img" />
         </div>
@@ -18,6 +18,8 @@
 
 <script>
 import { mapState } from "vuex";
+import Service from '../../utils/service'
+
 export default {
   name: "score",
   data() {
@@ -32,13 +34,15 @@ export default {
         "不要嘚瑟还有进步的空间！",
         "智商离爆表只差一步了！",
         "你也太聪明啦，葡萄之家欢迎你！"
-      ]
+      ],
+      totalTime: 0
     };
   },
   computed: mapState(["answerid"]),
   created() {
     this.computedScore();
     this.getScoreTip();
+    this.getTotalTime();
     document.body.style.backgroundImage = "url(" + this.setScoreBodyBg() + ")";
   },
   methods: {
@@ -75,8 +79,14 @@ export default {
       }
     },
     // 是否显示分享提示
-    showCover: function(){
+    showCover: function(e){
       this.showHide = !this.showHide;
+       // 阻止移动端点击图片默认出现预览问题
+       e.preventDefault();
+    },
+    // 获取总的答题时间
+    getTotalTime: function(){
+        this.totalTime = Service.getParameterByName('timer');
     }
   }
 };
@@ -116,9 +126,15 @@ export default {
       width: 3rem;
       margin: 0.4rem auto 0;
     }
+    .total-time{
+        color: #664718;
+        margin-top: .1rem;
+        font-size: .24rem;
+    }
     .share-tit {
       color: #664718;
       margin: 0.8rem auto 0.2rem;
+      font-size: .28rem;
     }
     .QRcode-img {
       width: 3rem;

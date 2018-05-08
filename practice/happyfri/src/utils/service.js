@@ -67,6 +67,16 @@ let Service = {
      // because Object.keys(new Date()).length === 0;
      // we have to do some additional check
        return Object.keys(obj).length === 0 && obj.constructor === Object;
+    },
+    // 获取url上的query参数
+    getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
 };
