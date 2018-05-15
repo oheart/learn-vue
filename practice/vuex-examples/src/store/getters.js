@@ -10,6 +10,17 @@ const getters = {
         return state.history
                 .slice(begin, end)
                 .join(',');
+    },
+    allProducts: state => state.all,
+    cartProducts: (state, getters, rootState) => {
+        return state.added.map(({id, quantity}) => {
+            const product = rootState.products.all.find(product => product.id === id)
+            return {
+                title: product.title,
+                price: product.price,
+                quantity
+            }
+        })
     }
 }
 

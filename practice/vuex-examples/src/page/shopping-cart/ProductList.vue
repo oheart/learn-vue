@@ -1,6 +1,7 @@
 <template>
     <ul>
-        <li>
+        <li v-for="product in products" v-bind:key="product.id">
+          {{product.title}}
             <br/>
             <button>
                 Add to cart

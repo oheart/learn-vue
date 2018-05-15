@@ -8,7 +8,9 @@ Vue.use(Vuex)
 
 const state = {
     count: 0,
-    history: []
+    history: [],
+    all: [],
+    added: []
 }
 
 export default new Vuex.Store({

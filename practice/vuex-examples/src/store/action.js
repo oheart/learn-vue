@@ -1,3 +1,4 @@
+import shop from '../api/shop'
 
 // actions are functions that cause side effects and can involve asynchronous operations.
 const actions = {
@@ -17,7 +18,7 @@ const actions = {
         })
     },
     getAllProducts({ commit }){
-        shop.getAllProducts(products => {
+        shop.getProducts(products => {
             commit('setProducts', products)
         })
     }
