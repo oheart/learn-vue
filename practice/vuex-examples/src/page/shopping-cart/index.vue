@@ -15,6 +15,9 @@ import YourCart from './YourCart.vue'
 
 export default{
     name: 'ShoppingCart',
-    component: {ProductList, YourCart}
+    components: {
+        ProductList, 
+        YourCart
+    }
 }
 </script>

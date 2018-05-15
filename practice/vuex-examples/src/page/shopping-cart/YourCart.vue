@@ -8,6 +8,7 @@
 import {mapGetters} from 'vuex'
 
 export default{
+    name:'YourCart',
     computed: {
         ...mapGetters({
             products: 'cartProducts',

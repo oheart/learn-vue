@@ -15,6 +15,11 @@ const actions = {
                 resolve();
             }, 1000)
         })
+    },
+    getAllProducts({ commit }){
+        shop.getAllProducts(products => {
+            commit('setProducts', products)
+        })
     }
 }
 

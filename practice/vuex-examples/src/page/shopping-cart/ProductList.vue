@@ -1,8 +1,11 @@
 <template>
     <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
+        <li>
+            <br/>
+            <button>
+                Add to cart
+            </button>
+        </li>
     </ul>
 </template>
 
@@ -10,6 +13,7 @@
     import {mapGetters, mapActions} from 'vuex'
 
     export default {
+        name:'ProductList',
         computed: mapGetters({
             products: 'allProducts'
         }),
