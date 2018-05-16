@@ -4,6 +4,7 @@ import Examples from '@/components/Examples'
 import Counter from '@/page/counter'
 import CounterHot from '@/page/counter-hot'
 import ShoppingCart from '@/page/shopping-cart'
+import TodoMVC from '@/page/todomvc'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ export default new Router({
       path: '/ShoppingCart',
       name: 'ShoppingCart',
       component: ShoppingCart
+    },
+    {
+      path: '/TodoMVC',
+      name: 'TodoMVC',
+      component: TodoMVC
     }
   ]
 })

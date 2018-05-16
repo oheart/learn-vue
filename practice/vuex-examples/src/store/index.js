@@ -4,13 +4,15 @@ import mutations from './mutations'
 import actions from './action'
 import getters from './getters'
 
+
 Vue.use(Vuex)
 
 const state = {
     count: 0,
     history: [],
     all: [],
-    added: []
+    added: [],
+    checkoutStatus: null
 }
 
 export default new Vuex.Store({

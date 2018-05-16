@@ -12,8 +12,28 @@ const mutations = {
         state.count--
         state.history.push('decrement')
     },
-    setProducts(state, products){
-      state.all = products
+    setProducts(state, products) {
+        state.all = products
+    },
+    decrementProductInventory(state, { id }) {
+        const product = state.all.find(product => product.id === id)
+        product.inventory--
+    },
+    pushProductToCart(state, { id }) {
+        state.added.push({
+            id,
+            quantity: 1
+        })
+    },
+    incrementItemQuantity(state, { id }) {
+        const cartItem = state.added.find(item => item.id === id)
+        cartItem.quantity++
+    },
+    setCartItems(state, { items }) {
+        state.added = items
+    },
+    setCheckoutStatus(state, status) {
+        state.checkoutStatus = status;
     }
 }
 
