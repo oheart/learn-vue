@@ -19,6 +19,7 @@
                 <Todo 
                     v-for="(todo, index) in todos" :key="index"
                     :todo="todo"
+                    :toggleTodo="toggleTodo"
                     />
             </ul>
           
@@ -70,6 +71,9 @@ export default {
              this.todos.push({title: text, completed: false})
           }
           e.target.value = '';
+      },
+      toggleTodo(todo){
+          todo.completed = !todo.completed;
       }
   }
 };
