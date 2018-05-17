@@ -1,7 +1,7 @@
 <template>
     <li class="bd-list-item clear">
             <img src="../../assets/img/check.svg" class="check-img"
-                @click="toggleTodo({todo: todo})"/>
+                @click="toggleTodo({todo: todo}, $event)"/>
             <span>{{todo.title}}</span>
             <span class="close-icon flr"></span>
      </li>
@@ -12,8 +12,10 @@ export default {
   name: "Todo",
   props: ['todo'],
   methods:{
-      toggleTodo(event,todo){
+      toggleTodo(todo, event){
           console.log('e', event)
+          var src = event.srcElement.src;
+          console.log('src'. src)
           todo.completed = !todo.completed;
       }
   }
