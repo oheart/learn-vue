@@ -7,22 +7,22 @@
         <!-- main section -->
         <section class="main">
             <div class="hd-add-todo">
-                  <label for="toggle-all" class="toggle-all-icon"></label>  
+                  <label for="toggle-all" class="toggle-all-icon"></label>
                   <input class="add-todo-input"
                     autofocus
                     autocomplete="off"
-                    placeholder="What needs to be done?" 
+                    placeholder="What needs to be done?"
                     @keyup.enter = "addTodo"
                 />
             </div>
             <ul class="bd-todolist">
-                <Todo 
+                <Todo
                     v-for="(todo, index) in todos" :key="index"
                     :todo="todo"
-                    :toggleTodo="toggleTodo"
+                    v-on:toggleTodo="toggleTodo"
                     />
             </ul>
-          
+
         </section>
         <!-- footer -->
         <footer class="footer clear">

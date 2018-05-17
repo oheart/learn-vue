@@ -13,14 +13,14 @@ import ActiveCheckImg from '../../assets/img/active-check.svg'
 
 export default {
   name: "Todo",
-  props: ['todo','toggleTodo'],
+  props: ['todo'],
   methods:{
       toggleCheckImg(todo, event){
           var src = event.srcElement.src;
-          todo.completed 
+          todo.completed
             ? (event.srcElement.src = defaultCheckImg)
             : (event.srcElement.src = ActiveCheckImg)
-           toggleTodo(todo);
+          this.$emit('toggleTodo', todo)
       }
   }
 };
