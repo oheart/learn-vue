@@ -17,6 +17,11 @@
           Shopping Cart
         </router-link>
       </li>
+      <li>
+        <router-link to="TodoMVC">
+          todomvc
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>

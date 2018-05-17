@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import Service  from './utils/service'
+import './assets/css/common.css'
 
 Vue.filter('currency', Service.currency)
 

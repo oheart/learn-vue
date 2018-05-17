@@ -12,7 +12,8 @@ const state = {
     history: [],
     all: [],
     added: [],
-    checkoutStatus: null
+    checkoutStatus: null,
+    todos: []
 }
 
 export default new Vuex.Store({
