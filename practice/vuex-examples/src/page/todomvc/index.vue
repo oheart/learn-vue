@@ -7,7 +7,11 @@
         <!-- main section -->
         <section class="main">
             <div class="hd-add-todo">
-                  <label for="toggle-all" class="toggle-all-icon"></label>
+                  <input id="toggle-all" type="checkbox"
+                    :checked="allChecked"
+                    @change="toggleAll(!allChecked)"
+                    />
+                  <label for="toggle-all" class="toggle-all-icon" v-bind:class="{'active-toggle-all-icon': allChecked}"></label>
                   <input class="add-todo-input"
                     autofocus
                     autocomplete="off"
@@ -62,7 +66,9 @@ export default {
     };
   },
   computed: {
-
+    allChecked(){
+      return this.todos.every(todo => todo.completed);
+    }
   },
   methods:{
       addTodo(e){
@@ -74,6 +80,9 @@ export default {
       },
       toggleTodo(todo){
           todo.completed = !todo.completed;
+      },
+      toggleAll(isCompleted){
+          this.todos.map((item) => item.completed = isCompleted)
       }
   }
 };
@@ -131,5 +140,11 @@ export default {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6,
     0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6,
     0 17px 2px -6px rgba(0, 0, 0, 0.2);
+}
+#toggle-all{
+ display: none;
+}
+.active-toggle-all-icon:after{
+  color: #727372;
 }
 </style>

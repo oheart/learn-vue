@@ -1,9 +1,16 @@
 <template>
     <li class="bd-list-item clear">
             <img src='../../assets/img/check.svg' class="check-img"
-                @click="toggleCheckImg({todo: todo}, $event)"/>
-            <span>{{todo.title}}</span>
-            <span class="close-icon flr"></span>
+                v-on:click="toggleCheckImg(todo, $event)"
+                v-if="!todo.completed"
+                />
+            <img src='../../assets/img/active-check.svg' class="check-img"
+                v-on:click="toggleCheckImg(todo, $event)"
+                 v-if="todo.completed"
+                />
+            <span v-bind:class="{'completed-txt': todo.completed}">{{todo.title}}</span>
+            <span class="close-icon flr"
+              :click="close()"></span>
      </li>
 </template>
 
@@ -17,10 +24,10 @@ export default {
   methods:{
       toggleCheckImg(todo, event){
           var src = event.srcElement.src;
+          this.$emit('toggleTodo', todo);
           todo.completed
-            ? (event.srcElement.src = defaultCheckImg)
-            : (event.srcElement.src = ActiveCheckImg)
-          this.$emit('toggleTodo', todo)
+            ? (event.srcElement.src = ActiveCheckImg)
+            : (event.srcElement.src = defaultCheckImg)
       }
   }
 };
@@ -45,5 +52,9 @@ export default {
 }
 .close-icon:after {
   content: "\D7";
+}
+.completed-txt{
+    color: #d9d9d9;
+    text-decoration: line-through;
 }
 </style>
