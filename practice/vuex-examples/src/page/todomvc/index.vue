@@ -21,9 +21,11 @@
             </div>
             <ul class="bd-todolist">
                 <Todo
-                    v-for="(todo, index) in todos" :key="index"
+                    v-for="(todo, index) in todos"
+                    :key="index"
                     :todo="todo"
                     v-on:toggleTodo="toggleTodo"
+                    v-on:deleteTodo="deleteTodo"
                     />
             </ul>
 
@@ -83,6 +85,9 @@ export default {
       },
       toggleAll(isCompleted){
           this.todos.map((item) => item.completed = isCompleted)
+      },
+      deleteTodo(todo){
+        this.todos.splice(this.todos.indexOf(todo), 1);
       }
   }
 };

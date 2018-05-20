@@ -10,7 +10,7 @@
                 />
             <span v-bind:class="{'completed-txt': todo.completed}">{{todo.title}}</span>
             <span class="close-icon flr"
-              :click="close()"></span>
+              v-on:click="$emit('deleteTodo', todo)"></span>
      </li>
 </template>
 
