@@ -19,3 +19,6 @@ input{
     display: 'block';
     content: ''
 }
+.cursor{
+    cursor: pointer;
+}

@@ -11,7 +11,8 @@
                     :checked="allChecked"
                     @change="toggleAll(!allChecked)"
                     />
-                  <label for="toggle-all" class="toggle-all-icon" v-bind:class="{'active-toggle-all-icon': allChecked}"></label>
+                  <label for="toggle-all" class="toggle-all-icon" v-bind:class="{'active-toggle-all-icon': allChecked}" 
+                  v-if="todos.length > 0"></label>
                   <input class="add-todo-input"
                     autofocus
                     autocomplete="off"
@@ -21,7 +22,7 @@
             </div>
             <ul class="bd-todolist">
                 <Todo
-                    v-for="(todo, index) in todos"
+                    v-for="(todo, index) in todosToDisplay"
                     :key="index"
                     :todo="todo"
                     v-on:toggleTodo="toggleTodo"
@@ -32,13 +33,23 @@
         </section>
         <!-- footer -->
         <footer class="footer clear">
-            <span class="fll">13 items left</span>
+            <span class="fll">{{remaining}} items left</span>
             <span>
-                <span>All</span>
-                <span>Active</span>
-                <span>Completed</span>
+                <!-- <span class="cursor active-filter-txt">All&nbsp;</span>
+                <span class="cursor active-filter-txt">Active&nbsp;</span>
+                <span class="cursor active-filter-txt">Completed</span> -->
+                <span class="cursor filter-item-txt"
+                    v-bind:class="{'active-filter-txt': item.isActive}"  
+                    v-for="(item, index) in filters"
+                    v-bind:key="item.name"
+                    @click="activeFilter(index)"
+                  >
+                  {{item.name}}
+                </span>
             </span>
-            <span  class="flr">Clear completed</span>
+            <span  class="cursor flr" 
+              v-if="todos.length > remaining"
+              @click="clearCompleted">Clear completed</span>
         </footer>
     </section>
 </template>
@@ -64,12 +75,39 @@ export default {
           title: "333",
           completed: false
         }
+      ],
+      filters:[
+        {
+          name: 'All',
+          isActive: true
+        },
+        {
+          name: 'Active',
+          isActive: false
+        },
+        {
+          name: 'Completed',
+          isActive: false
+        }
       ]
     };
   },
   computed: {
+    todosToDisplay(){
+        const activeFilter = this.filters.filter(filterItem => filterItem.isActive)[0];
+         if(activeFilter.name === this.filters[0].name){
+          return this.todos;
+        }else if(activeFilter.name === this.filters[1].name){
+          return this.todos.filter(todo => !todo.completed);
+        }else if(activeFilter.name === this.filters[2].name){
+          return this.todos.filter(todo => todo.completed);
+        }
+    },
     allChecked(){
       return this.todos.every(todo => todo.completed);
+    },
+    remaining(){
+      return this.todos.filter(todo => !todo.completed).length;
     }
   },
   methods:{
@@ -84,10 +122,18 @@ export default {
           todo.completed = !todo.completed;
       },
       toggleAll(isCompleted){
-          this.todos.map((item) => item.completed = isCompleted)
+          this.todos.map(item => item.completed = isCompleted)
       },
       deleteTodo(todo){
         this.todos.splice(this.todos.indexOf(todo), 1);
+      },
+      clearCompleted(){
+        this.todos = this.todos.filter(item => !item.completed);
+      },
+      activeFilter(filterIndex){
+        this.filters = this.filters.map((filter, index) => {
+          return {...filter, isActive: (index === filterIndex)}
+        })
       }
   }
 };
@@ -151,5 +197,13 @@ export default {
 }
 .active-toggle-all-icon:after{
   color: #727372;
+}
+.filter-item-txt{
+  margin-right: 8px;
+}
+.active-filter-txt{
+  border: 1px solid rgba(175, 47, 47, 0.2);
+  padding: 3px 7px;
+  border-radius: 3px;
 }
 </style>

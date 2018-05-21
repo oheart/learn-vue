@@ -9,7 +9,7 @@
                  v-if="todo.completed"
                 />
             <span v-bind:class="{'completed-txt': todo.completed}">{{todo.title}}</span>
-            <span class="close-icon flr"
+            <span class="close-icon flr cursors"
               v-on:click="$emit('deleteTodo', todo)"></span>
      </li>
 </template>
@@ -49,9 +49,13 @@ export default {
   color: #af5b5e;
   transition: color 0.2s ease-out;
   font-size: 30px;
+  display: none;
 }
 .close-icon:after {
   content: "\D7";
+}
+.bd-list-item:hover .close-icon{
+  display: block;
 }
 .completed-txt{
     color: #d9d9d9;
