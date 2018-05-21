@@ -9,35 +9,33 @@
             <div class="hd-add-todo">
                   <input id="toggle-all" type="checkbox"
                     :checked="allChecked"
-                    @change="toggleAll(!allChecked)"
+                    @change="handleToggleAll(!allChecked)"
                     />
                   <label for="toggle-all" class="toggle-all-icon" v-bind:class="{'active-toggle-all-icon': allChecked}" 
-                  v-if="todos.length > 0"></label>
+                  v-if="vuexTodos.length > 0"></label>
                   <input class="add-todo-input"
                     autofocus
                     autocomplete="off"
                     placeholder="What needs to be done?"
-                    @keyup.enter = "addTodo"
+                    @keyup.enter="handleAddTodo"
                 />
             </div>
             <ul class="bd-todolist">
                 <Todo
-                    v-for="(todo, index) in todosToDisplay"
+                    v-for="(todo, index) in vuexTodos"
                     :key="index"
                     :todo="todo"
-                    v-on:toggleTodo="toggleTodo"
-                    v-on:deleteTodo="deleteTodo"
                     />
             </ul>
 
         </section>
         <!-- footer -->
         <footer class="footer clear">
-            <span class="fll">{{remaining}} items left</span>
+            <span class="fll">11 items left</span>
             <span>
                 <span class="cursor filter-item-txt"
                     v-bind:class="{'active-filter-txt': item.isActive}"  
-                    v-for="(item, index) in filters"
+                    v-for="(item, index) in vuexFilters"
                     v-bind:key="item.name"
                     @click="activeFilter(index)"
                   >
@@ -45,96 +43,46 @@
                 </span>
             </span>
             <span  class="cursor flr" 
-              v-if="todos.length > remaining"
-              @click="clearCompleted">Clear completed</span>
+              v-if="vuexTodos.length > 11"
+              >Clear completed</span>
         </footer>
     </section>
 </template>
 
 <script>
 import Todo from "./Todo.vue";
+import {mapState, mapActions} from 'vuex'
 
 export default {
-  name: "TodoMVC",
+  name: "VuexTodoMVC",
   components: { Todo },
   data() {
     return {
-      // todos: [
-      //   {
-      //     title: "11111",
-      //     completed: true
-      //   },
-      //   {
-      //     title: "222",
-      //     completed: false
-      //   },
-      //   {
-      //     title: "333",
-      //     completed: false
-      //   }
-      // ],
-      todos:[
-
-      ],
-      filters:[
-        {
-          name: 'All',
-          isActive: true
-        },
-        {
-          name: 'Active',
-          isActive: false
-        },
-        {
-          name: 'Completed',
-          isActive: false
-        }
-      ]
+     
     };
   },
-  computed: {
-    todosToDisplay(){
-        const activeFilter = this.filters.filter(filterItem => filterItem.isActive)[0];
-         if(activeFilter.name === this.filters[0].name){
-          return this.todos;
-        }else if(activeFilter.name === this.filters[1].name){
-          return this.todos.filter(todo => !todo.completed);
-        }else if(activeFilter.name === this.filters[2].name){
-          return this.todos.filter(todo => todo.completed);
-        }
-    },
-    allChecked(){
-      return this.todos.every(todo => todo.completed);
-    },
-    remaining(){
-      return this.todos.filter(todo => !todo.completed).length;
-    }
-  },
+  computed:mapState({
+    vuexTodos: state => state.vuexTodos,
+    vuexFilters: state => state.vuexFilters,
+    allChecked:  state => state.vuexTodos.every(todo => todo.completed)
+  }),
   methods:{
-      addTodo(e){
-          var text = e.target.value;
-          if(text.trim()){
-             this.todos.push({title: text, completed: false})
-          }
-          e.target.value = '';
-      },
-      toggleTodo(todo){
-          todo.completed = !todo.completed;
-      },
-      toggleAll(isCompleted){
-          this.todos.map(item => item.completed = isCompleted)
-      },
-      deleteTodo(todo){
-        this.todos.splice(this.todos.indexOf(todo), 1);
-      },
-      clearCompleted(){
-        this.todos = this.todos.filter(item => !item.completed);
-      },
-      activeFilter(filterIndex){
-        this.filters = this.filters.map((filter, index) => {
-          return {...filter, isActive: (index === filterIndex)}
-        })
+    ...mapActions([
+      'addTodo',
+      'toggleAll'
+    ]),
+    handleAddTodo(e){
+      var text = e.target.value;
+      if(text.trim()){
+          this.addTodo(text)
       }
+      e.target.value = ''
+    },
+    handleToggleAll(isCompleted){
+      console.log('yuanlai',isCompleted)
+      console.log('fei',!isCompleted)
+      this.toggleAll(isCompleted);
+    }
   }
 };
 </script>

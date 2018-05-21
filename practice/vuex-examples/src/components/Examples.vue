@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h2>{{ msg }}</h2>
+    <h2 class="examples-tit">{{ msg }}</h2>
     <ul>
       <li>
         <router-link to="Counter">
@@ -20,6 +20,11 @@
       <li>
         <router-link to="TodoMVC">
           todomvc
+        </router-link>
+      </li>
+      <li>
+        <router-link to="VuexTodoMVC">
+          vuex-todomvc
         </router-link>
       </li>
     </ul>
@@ -52,5 +57,8 @@ li {
 }
 a {
   color: #42b983;
+}
+.examples-tit{
+  margin-bottom: 10px;
 }
 </style>

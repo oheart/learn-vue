@@ -50,7 +50,11 @@ const actions = {
                 commit('setCartItems', { items: savedCartItems })
             }
         )
-    }
+    },
+    addTodo: ({commit}, text) => commit('addTodo', text),
+    toggleTodo: ({commit}, todo) => commit('toggleTodo', todo),
+    toggleAll: ({commit}, isCompleted) => commit('toggleAll', isCompleted),
+    deleteTodo: ({commit}, todo) => commit('deleteTodo', todo)
 }
 
 export default actions

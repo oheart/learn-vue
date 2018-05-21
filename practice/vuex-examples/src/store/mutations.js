@@ -34,6 +34,18 @@ const mutations = {
     },
     setCheckoutStatus(state, status) {
         state.checkoutStatus = status;
+    },
+    addTodo(state, text) {
+        state.vuexTodos.push({ title: text, completed: false })
+    },
+    toggleTodo(state, todo){
+        todo.completed = !todo.completed;
+    },
+    toggleAll(state, isCompleted){
+       state.vuexTodos.map(item => item.completed = isCompleted)
+    },
+    deleteTodo(state, todo){
+        state.vuexTodos.splice(state.vuexTodos.indexOf(todo), 1)
     }
 }
 

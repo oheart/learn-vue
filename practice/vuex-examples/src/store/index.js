@@ -13,7 +13,22 @@ const state = {
     all: [],
     added: [],
     checkoutStatus: null,
-    todos: []
+    vuexTodos: [],
+    vuexFilters: [
+        {
+          name: 'All',
+          isActive: true
+        },
+        {
+          name: 'Active',
+          isActive: false
+        },
+        {
+          name: 'Completed',
+          isActive: false
+        }
+    ],
+    allChecked: false
 }
 
 export default new Vuex.Store({

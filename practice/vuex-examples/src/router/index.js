@@ -5,6 +5,7 @@ import Counter from '@/page/counter'
 import CounterHot from '@/page/counter-hot'
 import ShoppingCart from '@/page/shopping-cart'
 import TodoMVC from '@/page/todomvc'
+import VuexTodoMVC from '@/page/vuex-todomvc'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/TodoMVC',
       name: 'TodoMVC',
       component: TodoMVC
+    },
+    {
+      path: '/VuexTodoMVC',
+      name: 'VuexTodoMVC',
+      component: VuexTodoMVC
     }
   ]
 })
