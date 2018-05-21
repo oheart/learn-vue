@@ -54,7 +54,9 @@ const actions = {
     addTodo: ({commit}, text) => commit('addTodo', text),
     toggleTodo: ({commit}, todo) => commit('toggleTodo', todo),
     toggleAll: ({commit}, isCompleted) => commit('toggleAll', isCompleted),
-    deleteTodo: ({commit}, todo) => commit('deleteTodo', todo)
+    deleteTodo: ({commit}, todo) => commit('deleteTodo', todo),
+    clearCompleted: ({commit}) => commit('clearCompleted'),
+    activeFilter: ({commit}, filterIndex) => commit('activeFilter', filterIndex)
 }
 
 export default actions

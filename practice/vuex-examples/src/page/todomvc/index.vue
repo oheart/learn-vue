@@ -11,7 +11,7 @@
                     :checked="allChecked"
                     @change="toggleAll(!allChecked)"
                     />
-                  <label for="toggle-all" class="toggle-all-icon" v-bind:class="{'active-toggle-all-icon': allChecked}" 
+                  <label for="toggle-all" class="toggle-all-icon" v-bind:class="{'active-toggle-all-icon': allChecked}"
                   v-if="todos.length > 0"></label>
                   <input class="add-todo-input"
                     autofocus
@@ -36,7 +36,7 @@
             <span class="fll">{{remaining}} items left</span>
             <span>
                 <span class="cursor filter-item-txt"
-                    v-bind:class="{'active-filter-txt': item.isActive}"  
+                    v-bind:class="{'active-filter-txt': item.isActive}"
                     v-for="(item, index) in filters"
                     v-bind:key="item.name"
                     @click="activeFilter(index)"
@@ -44,7 +44,7 @@
                   {{item.name}}
                 </span>
             </span>
-            <span  class="cursor flr" 
+            <span  class="cursor flr"
               v-if="todos.length > remaining"
               @click="clearCompleted">Clear completed</span>
         </footer>
@@ -95,7 +95,7 @@ export default {
   computed: {
     todosToDisplay(){
         const activeFilter = this.filters.filter(filterItem => filterItem.isActive)[0];
-         if(activeFilter.name === this.filters[0].name){
+        if(activeFilter.name === this.filters[0].name){
           return this.todos;
         }else if(activeFilter.name === this.filters[1].name){
           return this.todos.filter(todo => !todo.completed);

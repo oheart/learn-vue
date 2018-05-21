@@ -11,7 +11,7 @@
                     :checked="allChecked"
                     @change="handleToggleAll(!allChecked)"
                     />
-                  <label for="toggle-all" class="toggle-all-icon" v-bind:class="{'active-toggle-all-icon': allChecked}" 
+                  <label for="toggle-all" class="toggle-all-icon" v-bind:class="{'active-toggle-all-icon': allChecked}"
                   v-if="vuexTodos.length > 0"></label>
                   <input class="add-todo-input"
                     autofocus
@@ -22,7 +22,7 @@
             </div>
             <ul class="bd-todolist">
                 <Todo
-                    v-for="(todo, index) in vuexTodos"
+                    v-for="(todo, index) in todosToDisplay"
                     :key="index"
                     :todo="todo"
                     />
@@ -31,19 +31,20 @@
         </section>
         <!-- footer -->
         <footer class="footer clear">
-            <span class="fll">11 items left</span>
+            <span class="fll">{{remaining}} items left</span>
             <span>
                 <span class="cursor filter-item-txt"
-                    v-bind:class="{'active-filter-txt': item.isActive}"  
+                    v-bind:class="{'active-filter-txt': item.isActive}"
                     v-for="(item, index) in vuexFilters"
                     v-bind:key="item.name"
-                    @click="activeFilter(index)"
+                    @click="toggleActiveFilter(index)"
                   >
                   {{item.name}}
                 </span>
             </span>
-            <span  class="cursor flr" 
-              v-if="vuexTodos.length > 11"
+            <span  class="cursor flr"
+              v-if="vuexTodos.length > remaining"
+              @click="clearCompleted"
               >Clear completed</span>
         </footer>
     </section>
@@ -51,37 +52,48 @@
 
 <script>
 import Todo from "./Todo.vue";
-import {mapState, mapActions} from 'vuex'
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "VuexTodoMVC",
   components: { Todo },
   data() {
-    return {
-     
-    };
+    return {};
   },
-  computed:mapState({
+  computed: mapState({
     vuexTodos: state => state.vuexTodos,
     vuexFilters: state => state.vuexFilters,
-    allChecked:  state => state.vuexTodos.every(todo => todo.completed)
-  }),
-  methods:{
-    ...mapActions([
-      'addTodo',
-      'toggleAll'
-    ]),
-    handleAddTodo(e){
-      var text = e.target.value;
-      if(text.trim()){
-          this.addTodo(text)
+    allChecked: state => state.vuexTodos.every(todo => todo.completed),
+    remaining: state => state.vuexTodos.filter(todo => !todo.completed).length,
+    todosToDisplay: state => {
+      const vuexTodos = state.vuexTodos;
+      const vuexFilters = state.vuexFilters;
+      const activeFilter = vuexFilters.filter(
+        filterItem => filterItem.isActive
+      )[0];
+      if (activeFilter.name === vuexFilters[0].name) {
+        return vuexTodos;
+      } else if (activeFilter.name === vuexFilters[1].name) {
+        return vuexTodos.filter(todo => !todo.completed);
+      } else if (activeFilter.name === vuexFilters[2].name) {
+        return vuexTodos.filter(todo => todo.completed);
       }
-      e.target.value = ''
+    }
+  }),
+  methods: {
+    ...mapActions(["addTodo", "toggleAll", "clearCompleted", "activeFilter"]),
+    handleAddTodo(e) {
+      var text = e.target.value;
+      if (text.trim()) {
+        this.addTodo(text);
+      }
+      e.target.value = "";
     },
-    handleToggleAll(isCompleted){
-      console.log('yuanlai',isCompleted)
-      console.log('fei',!isCompleted)
+    handleToggleAll(isCompleted) {
       this.toggleAll(isCompleted);
+    },
+    toggleActiveFilter(filterIndex) {
+      this.activeFilter(filterIndex);
     }
   }
 };
@@ -140,16 +152,16 @@ export default {
     0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6,
     0 17px 2px -6px rgba(0, 0, 0, 0.2);
 }
-#toggle-all{
- display: none;
+#toggle-all {
+  display: none;
 }
-.active-toggle-all-icon:after{
+.active-toggle-all-icon:after {
   color: #727372;
 }
-.filter-item-txt{
+.filter-item-txt {
   margin-right: 8px;
 }
-.active-filter-txt{
+.active-filter-txt {
   border: 1px solid rgba(175, 47, 47, 0.2);
   padding: 3px 7px;
   border-radius: 3px;

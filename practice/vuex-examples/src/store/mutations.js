@@ -46,6 +46,14 @@ const mutations = {
     },
     deleteTodo(state, todo){
         state.vuexTodos.splice(state.vuexTodos.indexOf(todo), 1)
+    },
+    clearCompleted(state){
+      state.vuexTodos = state.vuexTodos.filter(item => !item.completed);
+    },
+    activeFilter(state, filterIndex){
+      state.vuexFilters = state.vuexFilters.map((filter, index) => {
+        return {...filter, isActive: (index === filterIndex)}
+      })
     }
 }
 
