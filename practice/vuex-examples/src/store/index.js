@@ -28,7 +28,15 @@ const state = {
           isActive: false
         }
     ],
-    allChecked: false
+    allChecked: false,
+    threads:{
+      // id:{
+      //   id,
+      //   name,
+      //   messages: [...ids],
+      //   lastMessage
+      // }
+    }
 }
 
 export default new Vuex.Store({

@@ -6,6 +6,7 @@ import CounterHot from '@/page/counter-hot'
 import ShoppingCart from '@/page/shopping-cart'
 import TodoMVC from '@/page/todomvc'
 import VuexTodoMVC from '@/page/vuex-todomvc'
+import Chat from '@/page/Chat'
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/VuexTodoMVC',
       name: 'VuexTodoMVC',
       component: VuexTodoMVC
+    },
+    {
+      path: '/Chat',
+      name: 'Chat',
+      component: Chat
     }
   ]
 })

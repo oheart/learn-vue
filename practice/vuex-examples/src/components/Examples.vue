@@ -27,6 +27,11 @@
           vuex-todomvc
         </router-link>
       </li>
+      <li>
+        <router-link to="Chat">
+            chat
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
