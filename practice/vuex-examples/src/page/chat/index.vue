@@ -8,14 +8,21 @@
 </template>
 
 <script>
-import ThreadSection from './ThreadSection.vue'
-import MessageSection from './MessageSection.vue'
+import ThreadSection from "./ThreadSection.vue";
+import MessageSection from "./MessageSection.vue";
+import {mapActions} from 'vuex'
 
-export default{
-    name: 'Chat',
-    components:{
-        ThreadSection,
-        MessageSection
-    }
-}
+export default {
+  name: "Chat",
+  components: {
+    ThreadSection,
+    MessageSection
+  },
+  methods: {
+    ...mapActions(["getAllMessages"])
+  },
+  created() {
+    this.getAllMessages();
+  }
+};
 </script>

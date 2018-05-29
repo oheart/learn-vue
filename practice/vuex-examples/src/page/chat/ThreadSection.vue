@@ -7,6 +7,9 @@
        </div>
        <ul class="thread-list">
            <Thread
+                v-for="thread in threads"
+                :key="thread.id"
+                :thread="thread"
                 >
            </Thread>
        </ul>
@@ -15,7 +18,7 @@
 
 <script>
 import Thread from './Thread.vue'
-import {mapActions, mapGetters} from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default{
     name: 'ThreadSection',

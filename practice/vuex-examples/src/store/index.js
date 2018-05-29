@@ -29,6 +29,7 @@ const state = {
         }
     ],
     allChecked: false,
+    currentThreadID: null,
     threads:{
       // id:{
       //   id,
@@ -36,6 +37,19 @@ const state = {
       //   messages: [...ids],
       //   lastMessage
       // }
+    },
+    messages:{
+      /*
+        id:{
+          id,
+          threadId,
+          threadName,
+          authorName,
+          text,
+          timestamp,
+          isRead
+        }
+      */
     }
 }
 

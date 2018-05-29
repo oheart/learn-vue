@@ -49,6 +49,7 @@
     clear: both;
     font-size: 14px;
     padding-top: 10px;
+    text-align: left;
 }
 .message-author-name, .thread-name {
     color: #66c;

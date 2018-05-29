@@ -2,12 +2,21 @@
     <li
         class="thread-list-item"
     >
-        <h5 class="thread-name">Jing and Bill</h5>
+        <h5 class="thread-name">{{thread.name}}</h5>
         <div class="thread-time">
-            上午11:32:06
+            {{thread.lastMessage.timestamp | timestamp}}
         </div>
         <div class="thread-last-message">
-           Sounds good.  Will they be serving dessert?
+           {{thread.lastMessage.text}}
         </div>
     </li>
 </template>
+
+<script>
+export default{
+  name: 'Thread',
+  props:{
+    thread: Object
+  }
+}
+</script>

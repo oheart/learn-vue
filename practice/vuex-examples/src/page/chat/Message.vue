@@ -1,19 +1,22 @@
 <template>
     <li class="message-list-item">
         <h5 class="message-author-name">
-            Bill
+            {{message.authorName}}
         </h5>
         <div class="message-time">
-            下午1:51:59
+            {{message.timestamp | timestamp}}
         </div>
         <div class="message-text">
-            Hey Brian, are you going to be talking about functional stuff?
+            {{message.text}}
         </div>
     </li>
 </template>
 
 <script>
     export default{
-        name: 'Message'
+        name: 'Message',
+        props:{
+          message: Object
+        }
     }
 </script>

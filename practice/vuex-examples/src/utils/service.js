@@ -21,6 +21,9 @@ let Service = {
         return sign + currency + head +
           _int.slice(i).replace(digitsRE, '$1,') +
           _float
+      },
+      handleTimeStamp: function(timestamp){
+        return new Date(timestamp).toLocaleTimeString()
       }
 }
 

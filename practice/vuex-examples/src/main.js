@@ -9,6 +9,8 @@ import './assets/css/common.css'
 
 Vue.filter('currency', Service.currency)
 
+Vue.filter('timestamp', Service.handleTimeStamp)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

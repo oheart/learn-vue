@@ -27,7 +27,29 @@ const getters = {
         return getters.cartProducts.reduce((total, product) => {
             return total + product.price * product.quantity
         }, 0)
+    },
+    threads: state => state.threads,
+    currentThread: state => {
+      return state.currentThreadID
+          ? state.threads[state.currentThreadID]
+          : {}
+    },
+    currentMessages: state => {
+      const thread = getters.currentThread(state)
+      return thread.messages
+          ? thread.messages.map(id => state.messages[id])
+          : []
+    },
+    unreadCount:({threads}) => {
+      return Object.keys(threads).reduce((count, id) => {
+        return threads[id].lastMessage.isRead ? count : count + 1;
+      },0)
+    },
+    sortedMessages:(state, getters) => {
+      const messages = getters.currentMessages
+      return messages.slice().sort((a,b) => a.timestamp - b.timestamp)
     }
+
 }
 
 export default getters

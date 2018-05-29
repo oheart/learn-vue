@@ -1,4 +1,5 @@
 import shop from '../api/shop'
+import chat from '../api/chat'
 
 // actions are functions that cause side effects and can involve asynchronous operations.
 const actions = {
@@ -56,7 +57,20 @@ const actions = {
     toggleAll: ({commit}, isCompleted) => commit('toggleAll', isCompleted),
     deleteTodo: ({commit}, todo) => commit('deleteTodo', todo),
     clearCompleted: ({commit}) => commit('clearCompleted'),
-    activeFilter: ({commit}, filterIndex) => commit('activeFilter', filterIndex)
+    activeFilter: ({commit}, filterIndex) => commit('activeFilter', filterIndex),
+    getAllMessages: ({commit}) => {
+      chat.getAllMessages(messages => {
+        commit('receiveAll', messages)
+      })
+    },
+    sendMessage: ({commit}, payload) => {
+      chat.createMessage(payload, message => {
+        commit('receiveMessage', message)
+      })
+    },
+    switchThread: ({commit}, payload) => {
+      commit('switchThread', payload)
+    }
 }
 
 export default actions

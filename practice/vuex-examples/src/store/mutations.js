@@ -3,6 +3,8 @@
 // first argument,followed by additional payload arguments.
 // mutations must be synchronous and can be recorded by plugins
 // for debugging purposes.
+import Vue from 'vue'
+
 const mutations = {
     increment(state) {
         state.count++;
@@ -54,7 +56,61 @@ const mutations = {
       state.vuexFilters = state.vuexFilters.map((filter, index) => {
         return {...filter, isActive: (index === filterIndex)}
       })
+    },
+    receiveAll(state, messages){
+      let latestMessage
+      messages.forEach(message => {
+        // create new thread if the thread doesn't exist
+        if(!state.threads[message.threadID]){
+          createThread(state, message.threadID, message.threadName)
+        }
+        // mark the latest message
+        if(!latestMessage || message.timestamp > latestMessage.timestamp){
+          latestMessage = message;
+        }
+        // add message
+        addMessage(state, message)
+      })
+      // set initial thread to the one with the latest message
+      setCurrentThread(state, latestMessage.threadID)
+    },
+    receiveMessage(state, message){
+      addMessage(state, message)
+    },
+    switchThread(state, id){
+      setCurrentThread(state, id)
     }
+}
+
+function createThread(state, id , name){
+  Vue.set(state.threads, id, {
+    id,
+    name,
+    messages:[],
+    lastMessage: null
+  })
+}
+
+function addMessage(state, message){
+  // add a  `isRead` field before adding the message
+  message.isRead = message.threadID === state.currentThreadID
+  // add it to the thread it belongs to
+  const thread = state.threads[message.threadID]
+  if(!thread.messages.some(id => id === message.id)){
+    thread.messages.push(message.id)
+    thread.lastMessage = message
+  }
+  // add it to the messsages map
+  Vue.set(state.messages, message.id, message)
+}
+
+function setCurrentThread(state, id){
+  state.currentThreadID = id
+  if(!state.threads[id]){
+    debugger
+  }
+  // mark threads as read
+  state.threads[id].lastMessage.isRead = true
 }
 
 export default mutations
