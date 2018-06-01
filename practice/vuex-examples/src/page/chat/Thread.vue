@@ -1,6 +1,8 @@
 <template>
     <li
         class="thread-list-item"
+        :class="{active: active}"
+        @click="$emit('switch-thread', thread.id)"
     >
         <h5 class="thread-name">{{thread.name}}</h5>
         <div class="thread-time">
@@ -16,7 +18,8 @@
 export default{
   name: 'Thread',
   props:{
-    thread: Object
+    thread: Object,
+    active: Boolean
   }
 }
 </script>

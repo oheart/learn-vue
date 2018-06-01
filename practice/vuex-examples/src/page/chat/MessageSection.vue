@@ -1,6 +1,6 @@
 <template>
     <div class="message-section">
-       <h3 class="message-thread-heading">heading</h3>
+       <h3 class="message-thread-heading">{{thread.name}}</h3>
        <ul class="message-list" ref="list">
           <message
             v-for="message in messages"

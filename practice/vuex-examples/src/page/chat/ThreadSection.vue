@@ -2,7 +2,7 @@
     <div class="thread-section">
        <div class="thread-count">
            <span>
-               Unread threads: 2
+               Unread threads: {{unreadCount}}
            </span>
        </div>
        <ul class="thread-list">
@@ -10,6 +10,8 @@
                 v-for="thread in threads"
                 :key="thread.id"
                 :thread="thread"
+                :active="thread.id === currentThread.id"
+                @switch-thread="switchThread"
                 >
            </Thread>
        </ul>
@@ -18,13 +20,16 @@
 
 <script>
 import Thread from './Thread.vue'
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 
 export default{
     name: 'ThreadSection',
     components: {Thread},
     computed: mapGetters([
-        'threads'
-    ])
+        'threads',
+        'currentThread',
+        'unreadCount' 
+    ]),
+    methods: mapActions(['switchThread'])
 }
 </script>

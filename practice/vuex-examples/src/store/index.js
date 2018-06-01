@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import mutations from './mutations'
 import actions from './action'
 import getters from './getters'
-
+import createLogger from '../plugins/logger'
 
 Vue.use(Vuex)
 
@@ -57,5 +57,8 @@ export default new Vuex.Store({
     state,
     getters,
     actions,
-    mutations
+    mutations,
+    plugins: process.env.NODE_ENV !== 'production'
+        ? [createLogger()]
+        : []
 })
