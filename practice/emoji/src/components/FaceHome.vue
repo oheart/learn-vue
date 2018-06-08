@@ -95,9 +95,9 @@ export default {
       currentTabIndex: null,
       totalImgNum: 0,
       pageLimit: 10,
-      facesToShow: face.slice(0, 10),
+      facesToShow: face,
       currentPage: 1,
-      storeFacesForTag: face.slice(0, 10),
+      storeFacesForTag: face,
       skinModeFlag: false,
       skinModeTxt: "开启夜间模式",
       searchTxt: "",
@@ -148,8 +148,7 @@ export default {
       // 根据分类过滤要显示的分类
       if (category) {
         this.facesToShow = this.faces
-          .filter(item => item.category == category)
-          .slice(0, 10);
+          .filter(item => item.category == category);
       }
       this.storeFacesForTag = this.facesToShow;
     },
@@ -162,15 +161,14 @@ export default {
         );
       } else if (tag) {
         this.facesToShow = this.faces
-          .filter(item => item.tag.indexOf(tag) != -1)
-          .slice(0, 10);
+          .filter(item => item.tag.indexOf(tag) != -1);
       }
     },
     clickAllCategoryTab() {
       // 切换分类时默认显示全部标签
       this.currentTabIndex = null;
       this.currentCategoryIndex = null;
-      this.facesToShow = this.faces.filter(item => item.category).slice(0, 10);
+      this.facesToShow = this.faces.filter(item => item.category);
     },
     clickAllTagTab() {
       this.currentTabIndex = null;
@@ -181,8 +179,7 @@ export default {
           } else {
             return item.tag;
           }
-        })
-        .slice(0, 10);
+        });
     },
     goPage(currentPage) {
       console.log("currentPage", currentPage);
@@ -210,7 +207,6 @@ export default {
       this.skinModeFlag = !this.skinModeFlag;
     },
     searchFace() {
-      console.log(this.searchTxt);
       let searchTxt = this.searchTxt;
       if (searchTxt == "") {
         this.facesToShow = this.storeFacesForTag;
