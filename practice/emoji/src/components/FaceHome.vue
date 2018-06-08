@@ -6,8 +6,6 @@
         <ul class="category-list">
           <!-- <li class="category-item active-face-item cursor">全部</li>
           <li class="category-item cursor">猫</li>
-          <li class="category-item cursor">猫1</li>
-          <li class="category-item cursor">猫2</li>
           <li class="category-item cursor">猫3</li> -->
           <li class="category-item cursor"
               :class="{'active-face-item': currentCategoryIndex == null}"
@@ -29,9 +27,6 @@
        <h4 class="mark-tit">标签>></h4>
        <ul class="tag-list">
           <!-- <li class="tag-item cursor">全部</li>
-          <li class="tag-item cursor">大佬</li>
-          <li class="tag-item cursor">大佬</li>
-          <li class="tag-item cursor">大佬</li>
           <li class="tag-item cursor">大佬</li> -->
          <li class="tag-item cursor"
             :class="{'active-face-item': currentTabIndex == null}"
@@ -49,7 +44,7 @@
      </div>
       <!-- 筛选结果 -->
       <div class="face-result-part">
-        筛选结果：共 {{totalImgNum}} 张，共 17 页，当前第 1 页。
+        筛选结果：共 {{totalImgNum}} 张，共 {{totalPages}} 页，每页{{pageLimit}}条，当前第 {{currentPage}} 页。
       </div>
      <!-- 对应的表情图片列表 -->
      <div class="facelist-part">
@@ -60,6 +55,11 @@
           <img :src="'../static/' + item.fileName" class="face-img" />
           <h5 class="face-name">{{item.name}}</h5>
        </div>
+     </div>
+     <!-- 分页 -->
+     <div class="page-part">
+        <a class="cursor prev-page" @click="goPage(currentPage - 1)">&lt;&lt;上一页</a>
+        <a class="cursor next-page" @click="goPage(currentPage + 1)">下一页&gt;&gt;</a>
      </div>
 
   </div>
@@ -80,41 +80,97 @@ export default {
       currentCategoryIndex: null,
       currentTabIndex: null,
       totalImgNum: 0,
-      facesToShow: face
+      pageLimit: 10,
+      facesToShow: face.slice(0,10),
+      currentPage: 1,
+      storeFacesForTag: ""
     };
   },
   computed: {
     uniqueCategory: function() {
-      var categories = this.faces.map(item => item.category);
+      let categories = this.faces.map(item => item.category);
       return Service.unique(categories);
     },
     uniqueTags: function() {
-      var tags = this.faces.map(item => item.tag);
-      return Service.unique(Service.flatten(tags));
+      if (this.selCategory) {
+        let filterCategories = this.faces.filter(
+          item => item.category == this.selCategory
+        );
+        let tags = filterCategories.map(item => {
+          return item.tag;
+        });
+        return Service.unique(Service.flatten(tags));
+      } else {
+        let tags = this.faces.map(item => {
+          return item.tag;
+        });
+        return Service.unique(Service.flatten(tags));
+      }
+    },
+    totalPages: function() {
+      return Math.ceil(this.totalImgNum / this.pageLimit);
+    },
+    selCategory: function() {
+      let categories = this.faces.map(item => item.category);
+      let selCategory = this.uniqueCategory[this.currentCategoryIndex];
+      return selCategory;
+    },
+    selTag: function() {
+      let tags = this.faces.map(item => item.tag);
+      let selTag = this.uniqueTags[this.currentTabIndex];
+      return selTag;
     }
   },
   methods: {
     toggleCategoryTab(index, category) {
+      // 切换分类时默认显示全部标签
+      this.currentTabIndex = null;
       this.currentCategoryIndex = index;
-      // 根据分类过滤要显示的表情图
+      // 根据分类过滤要显示的分类
       if (category) {
-        this.facesToShow = this.faces.filter(item => item.category == category);
+        this.facesToShow = this.faces.filter(item => item.category == category).slice(0,10);
       }
+      this.storeFacesForTag = this.facesToShow;
     },
     toggleTagsTab(index, tag) {
       this.currentTabIndex = index;
-      // 根据分类过滤要显示的表情图
-      if (tag) {
-        this.facesToShow = this.faces.filter(item => item.tag == tag);
+      // 根据分类过滤要显示的标签
+      if (this.selCategory && tag) {
+        this.facesToShow = this.storeFacesForTag.filter(
+          item => item.tag.indexOf(tag) != -1
+        );
+      } else if (tag) {
+        this.facesToShow = this.faces.filter(
+          item => item.tag.indexOf(tag) != -1
+        ).slice(0,10);
       }
     },
     clickAllCategoryTab() {
+      // 切换分类时默认显示全部标签
+      this.currentTabIndex = null;
       this.currentCategoryIndex = null;
-      this.facesToShow = this.faces.filter(item => item.category != "");
+      this.facesToShow = this.faces.filter(item => item.category).slice(0,10);
     },
     clickAllTagTab() {
       this.currentTabIndex = null;
-      this.facesToShow = this.faces.filter(item => item.tag != "");
+      this.facesToShow = this.faces.filter(item => {
+        if (this.selCategory) {
+          return item.tag && item.category == this.selCategory;
+        } else {
+          return item.tag;
+        }
+      }).slice(0,10);
+    },
+    goPage(currentPage){
+      console.log('currentPage', currentPage); 
+      if(currentPage < 1){
+        alert('最后了,没有上一页了o(╥﹏╥)o')
+      }else if(currentPage > this.totalPages){
+         alert('最后了,没有下一页o(╥﹏╥)o')
+      }else{
+        console.log('currentPage', currentPage);
+        
+      }
     }
   },
   created() {
@@ -182,7 +238,7 @@ export default {
     display: flex;
     display: -webkit-flex;
     flex-wrap: wrap;
-    margin: 0 10%;
+    margin: 0 15%;
     .facelist-item {
       width: 20%;
       text-align: center;
@@ -198,6 +254,12 @@ export default {
   .face-result-part {
     text-align: center;
     margin: 20px 0;
+  }
+  .page-part {
+    text-align: center;
+    .prev-page {
+      margin-right: 20px;
+    }
   }
 }
 </style>
