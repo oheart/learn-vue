@@ -151,6 +151,7 @@ export default {
           .filter(item => item.category == category);
       }
       this.storeFacesForTag = this.facesToShow;
+      this.totalImgNum = this.facesToShow.length;
     },
     toggleTagsTab(index, tag) {
       this.currentTabIndex = index;
@@ -163,12 +164,14 @@ export default {
         this.facesToShow = this.faces
           .filter(item => item.tag.indexOf(tag) != -1);
       }
+       this.totalImgNum = this.facesToShow.length;
     },
     clickAllCategoryTab() {
       // 切换分类时默认显示全部标签
       this.currentTabIndex = null;
       this.currentCategoryIndex = null;
       this.facesToShow = this.faces.filter(item => item.category);
+      this.totalImgNum = this.facesToShow.length;
     },
     clickAllTagTab() {
       this.currentTabIndex = null;
@@ -180,6 +183,7 @@ export default {
             return item.tag;
           }
         });
+        this.totalImgNum = this.facesToShow.length;
     },
     goPage(currentPage) {
       console.log("currentPage", currentPage);
@@ -230,7 +234,7 @@ export default {
   created() {
     console.log("faces", this.faces);
     // 表情图片总张数
-    this.totalImgNum = this.faces.length;
+    this.totalImgNum = this.facesToShow.length;
   }
 };
 </script>

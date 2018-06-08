@@ -27,7 +27,7 @@ npm run build --report
 - 分页（page）-> todo
 - loading， -> todo
 - 搜索  -> 待完善
-- 手机适配
+- 手机适配 -> todo
 - 黑夜模式 -> 待完善
 - 大图模式， -> 待完善
 - 加载更多  -> todo
