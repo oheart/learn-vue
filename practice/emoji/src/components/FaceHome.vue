@@ -1,5 +1,11 @@
 <template>
   <div class="face-home-container">
+     <!-- 搜索 -->
+    <div class="search-part">
+       <input placeholder="输入您想搜索的表情" class="search-input"
+          v-model="searchTxt"
+          @keyup.enter="searchFace()" />
+    </div>
      <!-- 分类 -->
      <div class="category-part">
         <h4 class="mark-tit">分类>></h4>
@@ -52,7 +58,7 @@
           v-for="item in facesToShow"
           :key="item.fileName"
           >
-          <img :src="'../static/' + item.fileName" class="face-img" />
+          <img :src="'../static/' + item.fileName" class="face-img cursor" @click="showBigImg('../static/' + item.fileName)"/>
           <h5 class="face-name">{{item.name}}</h5>
        </div>
      </div>
@@ -61,7 +67,15 @@
         <a class="cursor prev-page" @click="goPage(currentPage - 1)">&lt;&lt;上一页</a>
         <a class="cursor next-page" @click="goPage(currentPage + 1)">下一页&gt;&gt;</a>
      </div>
-
+    <!-- 开启夜间模式 -->
+    <div class="skin-mode-part">
+      <span @click="toggleSkin()" class="cursor">{{skinModeTxt}}</span>
+    </div>
+    <!-- 大图模式 -->
+    <div class="big-imgs-layer" :style="{display: ifShowBigImgLayer}">
+        <span class="close-icon cursor" @click="closeBigImgLayer()">x</span>
+        <img :src="'../static/' + bigImgUrl" class="big-face-img" />
+    </div>
   </div>
 </template>
 
@@ -81,9 +95,14 @@ export default {
       currentTabIndex: null,
       totalImgNum: 0,
       pageLimit: 10,
-      facesToShow: face.slice(0,10),
+      facesToShow: face.slice(0, 10),
       currentPage: 1,
-      storeFacesForTag: ""
+      storeFacesForTag: face.slice(0, 10),
+      skinModeFlag: false,
+      skinModeTxt: "开启夜间模式",
+      searchTxt: "",
+      ifShowBigImgLayer: "none",
+      bigImgUrl: ''
     };
   },
   computed: {
@@ -128,7 +147,9 @@ export default {
       this.currentCategoryIndex = index;
       // 根据分类过滤要显示的分类
       if (category) {
-        this.facesToShow = this.faces.filter(item => item.category == category).slice(0,10);
+        this.facesToShow = this.faces
+          .filter(item => item.category == category)
+          .slice(0, 10);
       }
       this.storeFacesForTag = this.facesToShow;
     },
@@ -140,37 +161,74 @@ export default {
           item => item.tag.indexOf(tag) != -1
         );
       } else if (tag) {
-        this.facesToShow = this.faces.filter(
-          item => item.tag.indexOf(tag) != -1
-        ).slice(0,10);
+        this.facesToShow = this.faces
+          .filter(item => item.tag.indexOf(tag) != -1)
+          .slice(0, 10);
       }
     },
     clickAllCategoryTab() {
       // 切换分类时默认显示全部标签
       this.currentTabIndex = null;
       this.currentCategoryIndex = null;
-      this.facesToShow = this.faces.filter(item => item.category).slice(0,10);
+      this.facesToShow = this.faces.filter(item => item.category).slice(0, 10);
     },
     clickAllTagTab() {
       this.currentTabIndex = null;
-      this.facesToShow = this.faces.filter(item => {
-        if (this.selCategory) {
-          return item.tag && item.category == this.selCategory;
-        } else {
-          return item.tag;
-        }
-      }).slice(0,10);
+      this.facesToShow = this.faces
+        .filter(item => {
+          if (this.selCategory) {
+            return item.tag && item.category == this.selCategory;
+          } else {
+            return item.tag;
+          }
+        })
+        .slice(0, 10);
     },
-    goPage(currentPage){
-      console.log('currentPage', currentPage); 
-      if(currentPage < 1){
-        alert('最后了,没有上一页了o(╥﹏╥)o')
-      }else if(currentPage > this.totalPages){
-         alert('最后了,没有下一页o(╥﹏╥)o')
-      }else{
-        console.log('currentPage', currentPage);
-        
+    goPage(currentPage) {
+      console.log("currentPage", currentPage);
+      if (currentPage < 1) {
+        alert("最后了,没有上一页了o(╥﹏╥)o");
+      } else if (currentPage > this.totalPages) {
+        alert("最后了,没有下一页o(╥﹏╥)o");
+      } else {
+        console.log("currentPage", currentPage);
       }
+    },
+    toggleSkin() {
+      const bodyEl = document.body;
+      const appEl = document.getElementById("app");
+
+      if (!this.skinModeFlag) {
+        bodyEl.classList.add("night-mode-style");
+        appEl.classList.add("white-color");
+        this.skinModeTxt = "关闭夜间模式";
+      } else {
+        bodyEl.classList.remove("night-mode-style");
+        appEl.classList.remove("white-color");
+        this.skinModeTxt = "开启夜间模式";
+      }
+      this.skinModeFlag = !this.skinModeFlag;
+    },
+    searchFace() {
+      console.log(this.searchTxt);
+      let searchTxt = this.searchTxt;
+      if (searchTxt == "") {
+        this.facesToShow = this.storeFacesForTag;
+      } else {
+        this.facesToShow = this.storeFacesForTag.filter(
+          item =>
+            item.name == searchTxt ||
+            item.category == searchTxt ||
+            item.tag.indexOf(searchTxt) != -1
+        );
+      }
+    },
+    showBigImg(imgUrl) {
+      this.bigImgUrl = imgUrl;
+      this.ifShowBigImgLayer = "block";
+    },
+    closeBigImgLayer() {
+      this.ifShowBigImgLayer = "none";
     }
   },
   created() {
@@ -183,6 +241,29 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+.big-imgs-layer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  .big-face-img {
+    width: auto;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+  }
+  .close-icon {
+    position: absolute;
+    right: 25px;
+    top: 10px;
+    color: #fff;
+    font-size: 30px;
+  }
+}
+
 .default-face-item() {
   display: inline-block;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
@@ -206,6 +287,17 @@ export default {
   margin-bottom: 5px;
 }
 .face-home-container {
+  padding: 20px;
+  .search-part {
+    margin-bottom: 10px;
+    .search-input {
+      width: 300px;
+      height: 30px;
+      line-height: 30px;
+      padding-left: 6px;
+      font-size: 14px;
+    }
+  }
   .category-part {
     .category-list {
       .category-item {
@@ -260,6 +352,11 @@ export default {
     .prev-page {
       margin-right: 20px;
     }
+  }
+  .skin-mode-part {
+    text-align: left;
+    margin-top: 10px;
+    color: red;
   }
 }
 </style>

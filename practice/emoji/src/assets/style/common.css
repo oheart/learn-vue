@@ -19,3 +19,12 @@ li{
 .cursor{
     cursor: pointer;
 }
+.night-mode-style {
+  background: rgba(0, 0, 0, 0.8);
+}
+.white-color{
+  color: #FFF!important;
+}
+input{
+  outline: none;
+}
